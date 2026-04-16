@@ -1,0 +1,1 @@
+// Use this for global javascript
