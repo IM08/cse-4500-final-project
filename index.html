@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
 </head>
 <body>
     <nav>
@@ -27,6 +28,18 @@
             <div class="image-container">replace me</div>
             <div class="image-container">replace me</div>
             <div class="image-container">replace me</div>
+        </div>
+        <div style="display: flex; justify-content: center;">
+            <button onclick="showModal('newsletter')">Sign up for our newsletter!</button>
+        </div>
+        <div class="modal" id="newsletter" onclick="modalClicked(event)">
+            <div class="modal-content">
+                <h1>Newsletter Sign Up</h1>
+                <form name="newsletter" method="post" onsubmit="hideModal('newsletter')">
+                    <input type="email" placeholder="Enter your email address">
+                    <button type="submit">Sign up!</button>
+                </form>
+            </div>
         </div>
     </div>
 </body>
