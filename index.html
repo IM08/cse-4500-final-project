@@ -1,46 +1,209 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
-</head>
-<body>
-    <nav>
-        <ul>
-            <li><a class="current-page" href="#">Home</a></li>
-            <li><a href="contact.html">Contact</a></li>
-            <li><a href="about.html">About</a></li>
-        </ul>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Chud | Portfolio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="nav-top">
+        <div class="logo">Chud</div>
+
+        <div class="hamburger" id="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#games">Games</a></li>
+        <li><a href="#upcoming">Upcoming</a></li>
+        <li><a href="#engineering">Engineering</a></li>
+        <li><a href="" target="_blank">Resume</a></li>
+        <li><a href="" target="_blank">GitHub</a></li>
+      </ul>
     </nav>
-    <div class="page-content">
-        <div class="image-wall">
-            <!-- TODO: remove joke images, add actual images -->
-            <div class="image-container">
-                <img src="images/gnome.jpg" alt="a gnome">
-            </div>
-            <div class="image-container">
-                <img src="images/suprise.gif" alt="rick roll">
-            </div>
-            <div class="image-container">replace me</div>
-            <div class="image-container">replace me</div>
-            <div class="image-container">replace me</div>
-            <div class="image-container">replace me</div>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-content">
+        <div class="hero-text">
+          <h1>Chud</h1>
+          <p class="tagline">Computer Science / Engineering Student</p>
+          <p>
+            Aspiring Rotter, Gooner, and all around bum. Experience: Using Unity
+            & Godot, creating GPT bots and transformers with Python, and Website
+            Design (HTML, CSS, & JSON).
+          </p>
+
+          <div class="hero-buttons">
+            <a href="" target="_blank" class="social-btn">
+              <img src="Assets/instagram.png" alt="Instagram" />
+            </a>
+            <a href="" target="_blank" class="social-btn">
+              <img src="Assets/github.png" alt="GitHub" />
+            </a>
+            <a href="" target="_blank" class="social-btn">
+              <img src="Assets/linkedin.png" alt="LinkedIn" />
+            </a>
+          </div>
         </div>
-        <div style="display: flex; justify-content: center;">
-            <button onclick="showModal('newsletter')">Sign up for our newsletter!</button>
+
+        <div class="hero-image">
+          <img src="Assets/suprise.gif" alt="Hero Image" />
         </div>
-        <div class="modal" id="newsletter" onclick="modalClicked(event)">
-            <div class="modal-content">
-                <h1>Newsletter Sign Up</h1>
-                <form name="newsletter" method="post" onsubmit="hideModal('newsletter')">
-                    <input type="email" placeholder="Enter your email address">
-                    <button type="submit">Sign up!</button>
-                </form>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="expandable">
+      <div class="section-header">
+        <h2>Projects</h2>
+        <span class="toggle">+</span>
+      </div>
+      <div class="section-content">
+        <div class="card-container">
+          <div class="card">
+            <div class="card-inner">
+              <div class="card-front">Face Tracking System</div>
+              <div class="card-back">
+                <!-- <video src="assets/videos/face_tracking.mp4" autoplay muted loop></video> -->
+                <p>Real-time AR overlay built with Python & OpenCV.</p>
+              </div>
             </div>
+          </div>
+          <div class="card">
+            <div class="card-inner">
+              <div class="card-front"></div>
+              <div class="card-back">
+                <p></p>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-inner">
+              <div class="card-front">AI Assistant Prototype</div>
+              <div class="card-back">
+                <p>Local AI-based desktop assistant.</p>
+              </div>
+            </div>
+          </div>
         </div>
-    </div>
-</body>
+      </div>
+    </section>
+
+    <!-- GAMES -->
+    <section id="games" class="expandable">
+      <div class="section-header">
+        <h2>Games</h2>
+        <span class="toggle">+</span>
+      </div>
+      <div class="section-content">
+        <div class="card-container">
+          <div class="card">
+            <div class="card-inner">
+              <div class="card-front">VR Halloween Maze</div>
+              <div class="card-back">
+                <p>Multiplayer horror maze built in Unity.</p>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-inner">
+              <div class="card-front"></div>
+              <div class="card-back">
+                <p></p>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-inner">
+              <div class="card-front"></div>
+              <div class="card-back">
+                <p></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- UPCOMING -->
+    <section id="upcoming" class="expandable">
+      <div class="section-header">
+        <h2>Upcoming Projects</h2>
+        <span class="toggle">+</span>
+      </div>
+      <div class="section-content">
+        <div class="card-container">
+          <div class="card">
+            <div class="card-inner">
+              <div class="card-front">Music Player/Soundboard</div>
+              <div class="card-back">
+                <p>Turning a raspberry pi into a simple music player.</p>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-inner">
+              <div class="card-front"></div>
+              <div class="card-back">
+                <p></p>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-inner">
+              <div class="card-front"></div>
+              <div class="card-back">
+                <p></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ENGINEERING -->
+    <section id="engineering" class="expandable">
+      <div class="section-header">
+        <h2>Engineering</h2>
+        <span class="toggle">+</span>
+      </div>
+      <div class="section-content">
+        <div class="card-container">
+          <div class="card">
+            <div class="card-inner">
+              <div class="card-front"></div>
+              <div class="card-back">
+                <p></p>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-inner">
+              <div class="card-front"></div>
+              <div class="card-back">
+                <p></p>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-inner">
+              <div class="card-front"></div>
+              <div class="card-back">
+                <p></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script src="script.js"></script>
+  </body>
 </html>
