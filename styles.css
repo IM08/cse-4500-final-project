@@ -330,16 +330,11 @@ body {
     border-radius: 16px;
 }
 
-/* =====================
-   TOUCH DEVICES - TAP TO FLIP
-===================== */
-@media (hover: none) and (pointer: coarse) {
-    .card-inner {
-        transform: rotateY(0deg);
-    }
-    .card.flipped .card-inner {
-        transform: rotateY(180deg);
-    }
+.card-inner {
+    transform: rotateY(0deg);
+}
+.card.flipped .card-inner {
+    transform: rotateY(180deg);
 }
 
 /* =====================
@@ -360,6 +355,7 @@ body {
     }
 
     .hero-content {
+        padding-top: 80px;
         flex-direction: row;
         justify-content: space-between;
         gap: 40px;
