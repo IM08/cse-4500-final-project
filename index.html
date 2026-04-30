@@ -1,209 +1,298 @@
-<!doctype html>
+<!DOCTYPE html>
+<!--
+  CSE 4500 - Platform Computing | Final Project: Image Portfolio
+  index.html — Main entry point
+  Authors: Dylan (Chud), Solomon Smith
+  Last updated: 2026-04-30
+
+  Structure:
+    - <nav>      Fixed navigation bar with hamburger menu (mobile) and inline links (desktop)
+    - .hero      Full-width intro section with profile image and social links
+    - #projects  Expandable section: software and AI projects
+    - #games     Expandable section: game development work
+    - #upcoming  Expandable section: projects currently in progress or planned
+    - #engineering Expandable section: security engineering and systems work
+    - <footer>   Site-wide footer with attribution
+-->
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <title>Chud | Portfolio</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Space Grotesk — modern geometric sans-serif for headings and body text -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
     <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
+</head>
+<body>
+
+    <!-- =========================================================
+         NAVIGATION BAR
+         Fixed at the top. On mobile: hamburger toggles the link
+         list. On desktop (769px+): links display inline.
+    ========================================================= -->
     <nav class="navbar">
-      <div class="nav-top">
-        <div class="logo">Chud</div>
+        <div class="nav-top">
+            <div class="logo">Chud</div>
 
-        <div class="hamburger" id="hamburger">
-          <span></span>
-          <span></span>
-          <span></span>
+            <!-- Hamburger icon — three spans styled as horizontal bars via CSS -->
+            <div class="hamburger" id="hamburger" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
-      </div>
 
-      <ul class="nav-links" id="nav-links">
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#games">Games</a></li>
-        <li><a href="#upcoming">Upcoming</a></li>
-        <li><a href="#engineering">Engineering</a></li>
-        <li><a href="" target="_blank">Resume</a></li>
-        <li><a href="" target="_blank">GitHub</a></li>
-      </ul>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#games">Games</a></li>
+            <li><a href="#upcoming">Upcoming</a></li>
+            <li><a href="#engineering">Engineering</a></li>
+            <li><a href="" target="_blank">Resume</a></li><!-- TODO: add resume PDF URL -->
+            <li><a href="" target="_blank">GitHub</a></li><!-- TODO: add GitHub profile URL -->
+        </ul>
     </nav>
 
-    <!-- HERO -->
+
+    <!-- =========================================================
+         HERO SECTION
+         Full-width intro with name, tagline, bio, social links,
+         and a profile image. Layout is column on mobile,
+         side-by-side row on desktop.
+    ========================================================= -->
     <section class="hero">
-      <div class="hero-content">
-        <div class="hero-text">
-          <h1>Chud</h1>
-          <p class="tagline">Computer Science / Engineering Student</p>
-          <p>
-            Aspiring Rotter, Gooner, and all around bum. Experience: Using Unity
-            & Godot, creating GPT bots and transformers with Python, and Website
-            Design (HTML, CSS, & JSON).
-          </p>
+        <div class="hero-content">
 
-          <div class="hero-buttons">
-            <a href="" target="_blank" class="social-btn">
-              <img src="Assets/instagram.png" alt="Instagram" />
-            </a>
-            <a href="" target="_blank" class="social-btn">
-              <img src="Assets/github.png" alt="GitHub" />
-            </a>
-            <a href="" target="_blank" class="social-btn">
-              <img src="Assets/linkedin.png" alt="LinkedIn" />
-            </a>
-          </div>
-        </div>
+            <div class="hero-text">
+                <h1>Chud</h1>
+                <p class="tagline">Computer Science / Engineering Student</p>
+                <p>
+                    Aspiring Rotter, Gooner, and all around bum.
+                    Experience: Using Unity &amp; Godot, creating GPT bots and transformers with Python,
+                    and Website Design (HTML, CSS, &amp; JSON).
+                </p>
 
-        <div class="hero-image">
-          <img src="Assets/suprise.gif" alt="Hero Image" />
+                <!-- Social media icon links — open in new tab -->
+                <div class="hero-buttons">
+                    <a href="" target="_blank" class="social-btn" aria-label="Instagram"><!-- TODO: Instagram URL -->
+                        <img src="./Assets/insta.png" alt="Instagram" />
+                    </a>
+                    <a href="" target="_blank" class="social-btn" aria-label="GitHub"><!-- TODO: GitHub URL -->
+                        <img src="./Assets/github.png" alt="GitHub" />
+                    </a>
+                    <a href="" target="_blank" class="social-btn" aria-label="LinkedIn"><!-- TODO: LinkedIn URL -->
+                        <img src="./Assets/linkedin1.png" alt="LinkedIn" />
+                    </a>
+                </div>
+            </div>
+
+            <!-- Profile / hero image -->
+            <div class="hero-image">
+                <img src="Assets/suprise.gif" alt="Profile image" /><!-- TODO: replace with real profile photo -->
+            </div>
+
         </div>
-      </div>
     </section>
 
-    <!-- PROJECTS -->
+
+    <!-- =========================================================
+         PROJECTS SECTION
+         Software and AI projects. Each card flips on hover
+         (desktop) or tap (mobile) to reveal a description.
+    ========================================================= -->
     <section id="projects" class="expandable">
-      <div class="section-header">
-        <h2>Projects</h2>
-        <span class="toggle">+</span>
-      </div>
-      <div class="section-content">
-        <div class="card-container">
-          <div class="card">
-            <div class="card-inner">
-              <div class="card-front">Face Tracking System</div>
-              <div class="card-back">
-                <!-- <video src="assets/videos/face_tracking.mp4" autoplay muted loop></video> -->
-                <p>Real-time AR overlay built with Python & OpenCV.</p>
-              </div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-inner">
-              <div class="card-front"></div>
-              <div class="card-back">
-                <p></p>
-              </div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-inner">
-              <div class="card-front">AI Assistant Prototype</div>
-              <div class="card-back">
-                <p>Local AI-based desktop assistant.</p>
-              </div>
-            </div>
-          </div>
+        <div class="section-header">
+            <h2>Projects</h2>
+            <span class="toggle" aria-label="Toggle section">+</span>
         </div>
-      </div>
+        <div class="section-content">
+            <div class="card-container">
+
+                <!-- Card: Face Tracking System -->
+                <div class="card">
+                    <div class="card-inner">
+                        <div class="card-front">Face Tracking System</div>
+                        <div class="card-back">
+                            <!-- TODO: replace comment with <img> when screenshot is available -->
+                            <!-- <video src="assets/videos/face_tracking.mp4" autoplay muted loop></video> -->
+                            <p>Real-time AR overlay built with Python &amp; OpenCV.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card: DocMind — RAG document Q&A (Solomon Smith) -->
+                <div class="card">
+                    <div class="card-inner">
+                        <div class="card-front">DocMind</div>
+                        <div class="card-back">
+                            <p>RAG-based document Q&amp;A — upload any doc and get cited answers powered by a local LLM pipeline.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card: AI Assistant Prototype -->
+                <div class="card">
+                    <div class="card-inner">
+                        <div class="card-front">AI Assistant Prototype</div>
+                        <div class="card-back">
+                            <p>Local AI-based desktop assistant.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </section>
 
-    <!-- GAMES -->
+
+    <!-- =========================================================
+         GAMES SECTION
+         Game development projects built in Unity and Godot.
+    ========================================================= -->
     <section id="games" class="expandable">
-      <div class="section-header">
-        <h2>Games</h2>
-        <span class="toggle">+</span>
-      </div>
-      <div class="section-content">
-        <div class="card-container">
-          <div class="card">
-            <div class="card-inner">
-              <div class="card-front">VR Halloween Maze</div>
-              <div class="card-back">
-                <p>Multiplayer horror maze built in Unity.</p>
-              </div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-inner">
-              <div class="card-front"></div>
-              <div class="card-back">
-                <p></p>
-              </div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-inner">
-              <div class="card-front"></div>
-              <div class="card-back">
-                <p></p>
-              </div>
-            </div>
-          </div>
+        <div class="section-header">
+            <h2>Games</h2>
+            <span class="toggle" aria-label="Toggle section">+</span>
         </div>
-      </div>
+        <div class="section-content">
+            <div class="card-container">
+
+                <!-- Card: VR Halloween Maze -->
+                <div class="card">
+                    <div class="card-inner">
+                        <div class="card-front">VR Halloween Maze</div>
+                        <div class="card-back">
+                            <p>Multiplayer horror maze built in Unity.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Placeholder cards — teammates to fill in -->
+                <div class="card">
+                    <div class="card-inner">
+                        <div class="card-front"></div><!-- TODO: add project name -->
+                        <div class="card-back">
+                            <p></p><!-- TODO: add project description -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-inner">
+                        <div class="card-front"></div><!-- TODO: add project name -->
+                        <div class="card-back">
+                            <p></p><!-- TODO: add project description -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </section>
 
-    <!-- UPCOMING -->
+
+    <!-- =========================================================
+         UPCOMING PROJECTS SECTION
+         Projects currently in development or planned.
+    ========================================================= -->
     <section id="upcoming" class="expandable">
-      <div class="section-header">
-        <h2>Upcoming Projects</h2>
-        <span class="toggle">+</span>
-      </div>
-      <div class="section-content">
-        <div class="card-container">
-          <div class="card">
-            <div class="card-inner">
-              <div class="card-front">Music Player/Soundboard</div>
-              <div class="card-back">
-                <p>Turning a raspberry pi into a simple music player.</p>
-              </div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-inner">
-              <div class="card-front"></div>
-              <div class="card-back">
-                <p></p>
-              </div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-inner">
-              <div class="card-front"></div>
-              <div class="card-back">
-                <p></p>
-              </div>
-            </div>
-          </div>
+        <div class="section-header">
+            <h2>Upcoming Projects</h2>
+            <span class="toggle" aria-label="Toggle section">+</span>
         </div>
-      </div>
+        <div class="section-content">
+            <div class="card-container">
+
+                <!-- Card: Music Player/Soundboard -->
+                <div class="card">
+                    <div class="card-inner">
+                        <div class="card-front">Music Player/Soundboard</div>
+                        <div class="card-back">
+                            <p>Turning a Raspberry Pi into a simple music player.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Placeholder cards — teammates to fill in -->
+                <div class="card">
+                    <div class="card-inner">
+                        <div class="card-front"></div><!-- TODO: add project name -->
+                        <div class="card-back">
+                            <p></p><!-- TODO: add project description -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-inner">
+                        <div class="card-front"></div><!-- TODO: add project name -->
+                        <div class="card-back">
+                            <p></p><!-- TODO: add project description -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </section>
 
-    <!-- ENGINEERING -->
+
+    <!-- =========================================================
+         ENGINEERING SECTION
+         Security engineering and systems projects (Solomon Smith).
+    ========================================================= -->
     <section id="engineering" class="expandable">
-      <div class="section-header">
-        <h2>Engineering</h2>
-        <span class="toggle">+</span>
-      </div>
-      <div class="section-content">
-        <div class="card-container">
-          <div class="card">
-            <div class="card-inner">
-              <div class="card-front"></div>
-              <div class="card-back">
-                <p></p>
-              </div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-inner">
-              <div class="card-front"></div>
-              <div class="card-back">
-                <p></p>
-              </div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-inner">
-              <div class="card-front"></div>
-              <div class="card-back">
-                <p></p>
-              </div>
-            </div>
-          </div>
+        <div class="section-header">
+            <h2>Engineering</h2>
+            <span class="toggle" aria-label="Toggle section">+</span>
         </div>
-      </div>
+        <div class="section-content">
+            <div class="card-container">
+
+                <!-- Card: SOC Triage AI (Solomon Smith) -->
+                <div class="card">
+                    <div class="card-inner">
+                        <div class="card-front">SOC Triage AI</div>
+                        <div class="card-back">
+                            <p>AI-powered security alert triage system. Classifies threats, assigns severity, and generates analyst recommendations.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card: DossierForge (Solomon Smith) -->
+                <div class="card">
+                    <div class="card-inner">
+                        <div class="card-front">DossierForge</div>
+                        <div class="card-back">
+                            <p>Flask-based OSINT dossier builder with WHOIS lookups, nmap scanning, and social media recon modules.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card: PhishGuard (Solomon Smith) -->
+                <div class="card">
+                    <div class="card-inner">
+                        <div class="card-front">PhishGuard</div>
+                        <div class="card-back">
+                            <p>Phishing URL detection tool using machine learning to identify malicious links in real time.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </section>
+
+
+    <!-- =========================================================
+         FOOTER
+    ========================================================= -->
+    <footer class="site-footer">
+        <p>&copy; 2026 <span>CSE 4500</span> &mdash; Platform Computing &mdash; CSUSB</p>
+    </footer>
+
 
     <script src="script.js"></script>
-  </body>
+</body>
 </html>

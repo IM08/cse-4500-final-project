@@ -1,6 +1,49 @@
-/* =====================
-   GLOBAL RESET & BASE
-===================== */
+/* =============================================================================
+   CSE 4500 - Platform Computing | Final Project: Image Portfolio
+   styles.css — Main stylesheet
+   Authors: Dylan (Chud), Solomon Smith
+   Last updated: 2026-04-30
+
+   Table of contents:
+     1.  CSS Custom Properties (design tokens)
+     2.  Global Reset & Base
+     3.  Navbar — Mobile First
+     4.  Navbar — Desktop Overrides
+     5.  Hero Section — Mobile First
+     6.  Hero Section — Desktop Overrides
+     7.  Expandable Sections & Section Headers
+     8.  Flip Cards
+     9.  Touch Device Overrides (tap-to-flip)
+     10. Desktop Card Hover Flip
+     11. Desktop Layout Overrides
+     12. Footer
+============================================================================= */
+
+
+/* =============================================================================
+   1. CSS CUSTOM PROPERTIES
+   Central design token definitions. Edit these to retheme the entire site.
+============================================================================= */
+:root {
+    --color-bg:           #0f0f1a;
+    --color-bg-elevated:  #151528;
+    --color-bg-card:      #1d1d34;
+    --color-accent:       #a78bfa;
+    --color-accent-dark:  #8b5cf6;
+    --color-text:         #e4e4f0;
+    --color-text-dim:     #9494b0;
+    --color-text-bright:  #f1f1ff;
+    --radius-card:        16px;
+    --transition-fast:    0.3s ease;
+    --transition-flip:    0.7s ease;
+    --shadow-card:        0 6px 20px rgba(0, 0, 0, 0.4);
+    --shadow-glow:        0 0 40px rgba(139, 92, 246, 0.3);
+}
+
+
+/* =============================================================================
+   2. GLOBAL RESET & BASE
+============================================================================= */
 * {
     margin: 0;
     padding: 0;
@@ -12,27 +55,30 @@ html {
 }
 
 body {
-    font-family: 'Segoe UI', sans-serif;
-    background-color: #0f0f1a;
-    color: #e4e4f0;
+    font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
+    background-color: var(--color-bg);
+    color: var(--color-text);
     line-height: 1.6;
-    overflow-x: hidden; /* prevent horizontal scroll */
+    overflow-x: hidden;
 }
 
-/* =========================
-   NAVBAR - MOBILE FIRST
-========================= */
 
+/* =============================================================================
+   3. NAVBAR — MOBILE FIRST
+   Fixed to top. Logo + hamburger on mobile; hamburger hidden on desktop.
+============================================================================= */
 .navbar {
     position: fixed;
     top: 0;
     width: 100%;
-    background: #151528;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+    background: rgba(21, 21, 40, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
     z-index: 1000;
 }
 
-/* Top bar (logo + hamburger) */
+/* Top row: logo on the left, hamburger on the right (mobile only) */
 .nav-top {
     display: flex;
     justify-content: space-between;
@@ -42,11 +88,12 @@ body {
 
 .logo {
     font-size: 20px;
-    font-weight: bold;
-    color: #a78bfa;
+    font-weight: 700;
+    color: var(--color-accent);
+    letter-spacing: 0.02em;
 }
 
-/* Hamburger - MOBILE ONLY */
+/* Three-line hamburger icon — visible on mobile only */
 .hamburger {
     display: flex;
     flex-direction: column;
@@ -59,11 +106,12 @@ body {
 .hamburger span {
     height: 3px;
     width: 100%;
-    background: #a78bfa;
+    background: var(--color-accent);
     border-radius: 2px;
+    transition: background var(--transition-fast);
 }
 
-/* Hidden dropdown initially */
+/* Dropdown nav list — hidden by default on mobile */
 .nav-links {
     display: none;
     flex-direction: column;
@@ -71,43 +119,49 @@ body {
     gap: 12px;
     padding: 15px 0;
     list-style: none;
-    background: #151528;
+    background: var(--color-bg-elevated);
 }
 
-/* Show dropdown when active */
+/* JS toggles this class to open the mobile menu */
 .nav-links.active {
     display: flex;
 }
 
 .nav-links a {
     text-decoration: none;
-    color: #e4e4f0;
+    color: var(--color-text);
     font-weight: 500;
     font-size: 14px;
+    position: relative;
+    transition: color var(--transition-fast);
+}
+
+/* Sliding underline on hover — grows from left to right */
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--color-accent);
+    transition: width var(--transition-fast);
 }
 
 .nav-links a:hover {
-    color: #8b5cf6;
+    color: var(--color-accent);
 }
 
-/* =========================
-   DESKTOP NAVBAR
-========================= */
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+
+/* =============================================================================
+   4. NAVBAR — DESKTOP OVERRIDES
+   At 769px+ the hamburger hides and the nav links render as a horizontal row.
+============================================================================= */
 @media (min-width: 769px) {
-
-    .hamburger {
-        display: none; /* hide hamburger on desktop */
-    }
-
-    .nav-links {
-        display: flex !important; /* always visible */
-        flex-direction: row;
-        justify-content: flex-end;
-        gap: 25px;
-        padding: 0 50px 0 0;
-        background: none;
-    }
-
     .navbar {
         display: flex;
         flex-direction: row;
@@ -118,83 +172,115 @@ body {
 
     .nav-top {
         padding: 20px 50px;
-        width: 100%;
+        width: auto;
+    }
+
+    .hamburger {
+        display: none;
+    }
+
+    /* Force visible regardless of mobile toggle state */
+    .nav-links {
+        display: flex !important;
+        flex-direction: row;
+        justify-content: flex-end;
+        gap: 25px;
+        padding: 0 50px 0 0;
+        background: none;
     }
 }
 
 
-/* =====================
-   HERO - MOBILE FIRST
-===================== */
+/* =============================================================================
+   5. HERO SECTION — MOBILE FIRST
+   Stacked column layout on mobile: text above, image below.
+============================================================================= */
 .hero {
-    padding: 80px 15px 60px 15px;
+    padding: 100px 20px 70px;
     text-align: center;
-    border-radius: 0;
-    background: linear-gradient(135deg, #151528, #1d1d34);
+    background: linear-gradient(160deg, #151528 0%, #1a1a35 50%, #1d1d34 100%);
+    border-bottom: 1px solid rgba(167, 139, 250, 0.1);
 }
 
 .hero-content {
-   flex-direction: column-reverse;
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   gap: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    max-width: 1100px;
+    margin: 0 auto;
 }
 
+/* Gradient text treatment on the name heading */
 .hero-text h1 {
-    font-size: 28px;
+    font-size: 32px;
+    font-weight: 700;
     margin-bottom: 8px;
+    background: linear-gradient(135deg, var(--color-text-bright) 30%, var(--color-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .tagline {
     font-size: 16px;
-    color: #a78bfa;
-    margin-bottom: 10px;
+    color: var(--color-accent);
+    margin-bottom: 12px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
 }
 
 .hero-text p {
     font-size: 14px;
-    line-height: 1.5;
+    line-height: 1.7;
+    color: var(--color-text-dim);
+    max-width: 480px;
+    margin: 0 auto;
 }
 
+/* Social icon row */
 .hero-buttons {
     display: flex;
     justify-content: center;
-    gap: 12px;
-    margin-top: 15px;
+    gap: 14px;
+    margin-top: 20px;
 }
 
 .social-btn {
-    display: inline-block;
-    width: 36px;
-    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: rgba(167, 139, 250, 0.08);
+    border: 1px solid rgba(167, 139, 250, 0.2);
     overflow: hidden;
-    border-radius: 0%;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
 }
 
 .social-btn img {
-    width: 100%;
-    height: 100%;
+    width: 22px;
+    height: 22px;
     object-fit: contain;
-    transition: transform 0.3s ease;
+    transition: transform var(--transition-fast);
 }
 
 .social-btn:hover {
-    transform: translateY(-8px) scale(1.1);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    transform: translateY(-4px) scale(1.08);
+    background: rgba(167, 139, 250, 0.16);
+    box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
 }
 
-.social-btn:hover img {
-    transform: scale(1.05);
-}
-
+/* Profile image — rounded with purple glow */
 .hero-image {
     width: 160px;
     aspect-ratio: 1 / 1;
-    border-radius: 50px;
+    border-radius: 60px;
     overflow: hidden;
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    border: 2px solid rgba(167, 139, 250, 0.35);
+    box-shadow: var(--shadow-glow);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .hero-image img {
@@ -205,22 +291,67 @@ body {
 }
 
 .hero-image:hover {
-    transform: translateY(-5px) scale(1.02);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 20px 50px rgba(139, 92, 246, 0.4);
 }
 
-/* =====================
-   SECTIONS & CARDS
-===================== */
+
+/* =============================================================================
+   6. HERO SECTION — DESKTOP OVERRIDES
+   Side-by-side layout at 769px+: text left, image right.
+============================================================================= */
+@media (min-width: 769px) {
+    .hero {
+        padding: 130px 10% 90px;
+        text-align: left;
+    }
+
+    .hero-content {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 60px;
+    }
+
+    .hero-text {
+        max-width: 55%;
+    }
+
+    .hero-text h1 {
+        font-size: 56px;
+    }
+
+    .hero-text p {
+        font-size: 16px;
+        margin: 0;
+    }
+
+    .hero-buttons {
+        justify-content: flex-start;
+    }
+
+    .hero-image {
+        width: 220px;
+        border-radius: 80px;
+        flex-shrink: 0;
+    }
+}
+
+
+/* =============================================================================
+   7. EXPANDABLE SECTIONS & SECTION HEADERS
+   Each section collapses/expands via JS. Click the header to toggle.
+============================================================================= */
 .expandable {
-    padding: 50px 15px;
-    border-bottom: 1px solid #1f1f3a;
+    padding: 50px 20px;
+    border-bottom: 1px solid rgba(31, 31, 58, 0.8);
 }
 
 .expandable:nth-child(even) {
-    background-color: #151528;
+    background-color: var(--color-bg-elevated);
 }
 
+/* Left accent bar visually anchors the section title */
 .section-header {
     display: flex;
     justify-content: space-between;
@@ -230,34 +361,59 @@ body {
 
 .section-header h2 {
     font-size: 22px;
-    color: #a78bfa;
+    font-weight: 600;
+    color: var(--color-accent);
+    padding-left: 14px;
+    border-left: 3px solid var(--color-accent-dark);
+    letter-spacing: 0.01em;
 }
 
 .toggle {
-    font-size: 24px;
-    font-weight: bold;
-    color: #8b5cf6;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--color-accent-dark);
+    transition: transform var(--transition-fast), color var(--transition-fast);
+    user-select: none;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: rgba(167, 139, 250, 0.08);
+    border: 1px solid rgba(167, 139, 250, 0.15);
 }
 
+.section-header:hover .toggle {
+    background: rgba(167, 139, 250, 0.15);
+    color: var(--color-accent);
+}
+
+/* Hidden by default; JS sets max-height to scrollHeight to expand */
 .section-content {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.4s ease;
+    transition: max-height 0.45s ease;
 }
 
 .section-content.active {
-    max-height: 1000px;
-    margin-top: 20px;
+    max-height: 1200px;
+    margin-top: 24px;
 }
 
 .card-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
+    gap: 16px;
 }
 
-/* FLIP CARD */
+
+/* =============================================================================
+   8. FLIP CARDS
+   3D perspective flip animation. Front face shows title; back shows details.
+   CSS handles hover flip on desktop; JS handles tap-to-flip on mobile.
+============================================================================= */
 .card {
     width: 90%;
     max-width: 300px;
@@ -269,55 +425,82 @@ body {
     width: 100%;
     height: 100%;
     position: relative;
-    transition: transform 0.9s ease;
+    transition: transform var(--transition-flip);
     transform-style: preserve-3d;
     cursor: pointer;
 }
 
-.card-front, .card-back {
+/* Both faces share positioning and centering */
+.card-front,
+.card-back {
     position: absolute;
     width: 100%;
     height: 100%;
-    border-radius: 16px;
+    border-radius: var(--radius-card);
     backface-visibility: hidden;
     overflow: hidden;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 15px;
+    padding: 20px;
 }
 
+/* Front face — title centered with subtle border and hint text */
 .card-front {
-    background: #1d1d34;
-    color: #a78bfa;
-    font-weight: bold;
+    background: var(--color-bg-card);
+    color: var(--color-accent);
+    font-weight: 600;
     font-size: 18px;
     text-align: center;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    box-shadow: var(--shadow-card);
+    border: 1px solid rgba(167, 139, 250, 0.15);
+    transition: box-shadow var(--transition-fast), border-color var(--transition-fast);
 }
 
+/* Persistent micro-hint so users know cards are interactive */
+.card-front::after {
+    content: "hover to view";
+    position: absolute;
+    bottom: 14px;
+    font-size: 10px;
+    font-weight: 400;
+    color: rgba(167, 139, 250, 0.35);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+/* Back face — rotated 180deg, revealed on hover/tap */
 .card-back {
     transform: rotateY(180deg);
-    color: white;
+    color: var(--color-text-bright);
     text-align: center;
     position: relative;
 }
 
+/* Purple-to-dark gradient overlay sits above any background media */
 .card-back::before {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(139,92,246,0.6), rgba(29,29,52,0.8));
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.65), rgba(29, 29, 52, 0.85));
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     z-index: 0;
+    border-radius: var(--radius-card);
 }
 
-.card-back p, .card-back h3 {
+/* Text content sits above the gradient overlay */
+.card-back p,
+.card-back h3 {
     position: relative;
     z-index: 1;
-    color: #f1f1ff;
+    color: var(--color-text-bright);
+    font-size: 14px;
+    line-height: 1.6;
 }
 
+/* Reserved for future video background support on individual cards */
 .card-back video {
     position: absolute;
     width: 100%;
@@ -327,77 +510,67 @@ body {
     left: 0;
     z-index: 0;
     filter: brightness(0.6) blur(3px);
-    border-radius: 16px;
+    border-radius: var(--radius-card);
 }
 
-/* =====================
-   TOUCH DEVICES - TAP TO FLIP
-===================== */
+
+/* =============================================================================
+   9. TOUCH DEVICE OVERRIDES
+   On touch screens (hover: none), hover CSS doesn't fire.
+   JS adds/removes the .flipped class on tap instead.
+============================================================================= */
 @media (hover: none) and (pointer: coarse) {
     .card-inner {
         transform: rotateY(0deg);
     }
+
     .card.flipped .card-inner {
         transform: rotateY(180deg);
     }
+
+    /* "tap" hint replaces "hover" hint on touch devices */
+    .card-front::after {
+        content: "tap to view";
+    }
 }
 
-/* =====================
-   DESKTOP OVERRIDES
-===================== */
+
+/* =============================================================================
+   10. DESKTOP CARD HOVER FLIP
+   On pointer devices that support hover, flip the card on mouse over.
+   Glow effect on the front face signals interactivity before flip occurs.
+============================================================================= */
+@media (hover: hover) and (pointer: fine) {
+    .card:hover .card-inner {
+        transform: rotateY(180deg);
+    }
+
+    .card:hover .card-front {
+        box-shadow: 0 0 30px rgba(139, 92, 246, 0.35);
+        border-color: rgba(167, 139, 250, 0.4);
+    }
+}
+
+
+/* =============================================================================
+   11. DESKTOP LAYOUT OVERRIDES
+   At 769px+: horizontal card grid, wider section padding, larger typography.
+============================================================================= */
 @media (min-width: 769px) {
-
-    .navbar {
-        flex-direction: row;
-        justify-content: space-between;
-        padding: 20px 50px;
-    }
-
-    .nav-links {
-        flex-direction: row;
-        gap: 25px;
-        width: auto;
-    }
-
-    .hero-content {
-        flex-direction: row;
-        justify-content: space-between;
-        gap: 40px;
-        align-items: center;
-    }
-
-    .hero-text {
-        max-width: 50%;
-        text-align: left;
-    }
-
-    .hero-text h1 {
-        font-size: 48px;
-    }
-
-    .hero-text p {
-        font-size: 16px;
-    }
-
-    .hero-image {
-        width: 400px;
-        border-radius: 100px;
-    }
-
     .card-container {
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: center;
-        gap: 40px;
+        gap: 32px;
     }
 
     .card {
-        width: 270px;
-        height: 270px;
+        width: 260px;
+        height: 260px;
     }
 
     .section-header h2 {
-        font-size: 30px;
+        font-size: 28px;
     }
 
     .expandable {
@@ -406,3 +579,20 @@ body {
 }
 
 
+/* =============================================================================
+   12. FOOTER
+   Simple one-line footer anchored to the bottom of the page content.
+============================================================================= */
+.site-footer {
+    background: var(--color-bg-elevated);
+    text-align: center;
+    padding: 28px 20px;
+    color: var(--color-text-dim);
+    font-size: 13px;
+    border-top: 1px solid rgba(167, 139, 250, 0.1);
+    letter-spacing: 0.02em;
+}
+
+.site-footer span {
+    color: var(--color-accent);
+}
