@@ -1,42 +1,57 @@
 <!DOCTYPE html>
 <!--
-  CSE 4500 - Platform Computing | Final Project: Image Portfolio
-  index.html — Main entry point
-  Authors: Dylan (Chud), Solomon Smith
-  Last updated: 2026-04-30
+  ============================================================================
+  Mosaic — Photo Album Portfolio
+  CSE 4500 (Platform Computing) — Final Project
+  ----------------------------------------------------------------------------
+  Team:   Solomon Smith, Issac Munoz, Dominic Arrezola, Charles Phan
+  File:   public/index.html — single-page client for the Mosaic web app
+  ----------------------------------------------------------------------------
+  High-level structure (in source + rendered order):
 
-  Structure:
-    - <nav>      Fixed navigation bar with hamburger menu (mobile) and inline links (desktop)
-    - .hero      Full-width intro section with profile image and social links
-    - #projects  Expandable section: software and AI projects
-    - #games     Expandable section: game development work
-    - #upcoming  Expandable section: projects currently in progress or planned
-    - #engineering Expandable section: security engineering and systems work
-    - <footer>   Site-wide footer with attribution
+    1. <nav>          Fixed top bar with anchor links + mobile hamburger
+    2. .hero          Title block introducing the project
+    3. #albums        Default view — grid of album cards + "New Album" form
+    4. #gallery       Hidden by default — opens when an album card is clicked.
+                      Contains the upload form + thumbnail grid for one album.
+    5. #about         Static section describing the project + team
+    6. #lightbox      Full-screen modal that displays a single image
+    7. #toast         Floating notification element for success / error msgs
+    8. <footer>       Course attribution
+
+  All dynamic behavior lives in script.js. All visual styling lives in
+  styles.css. This file is intentionally markup-only with stable id/class
+  hooks that the JS layer queries by name.
+  ============================================================================
 -->
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>Chud | Portfolio</title>
+    <title>Mosaic — Photo Album Portfolio</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Mosaic — a photo album portfolio built for CSE 4500 Platform Computing." />
 
-    <!-- Space Grotesk — modern geometric sans-serif for headings and body text -->
+    <!--
+      Space Grotesk: a modern geometric sans-serif used for both headings
+      and body copy. Loaded from Google Fonts so we don't bundle font files.
+    -->
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
     <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
-    <!-- =========================================================
-         NAVIGATION BAR
-         Fixed at the top. On mobile: hamburger toggles the link
-         list. On desktop (769px+): links display inline.
-    ========================================================= -->
+    <!-- ====================================================================
+         NAVIGATION
+         Fixed at the top of the viewport. Anchor links scroll to in-page
+         sections. The hamburger toggles the .active class on #nav-links
+         on mobile (handled in script.js).
+    ==================================================================== -->
     <nav class="navbar">
         <div class="nav-top">
-            <div class="logo">Chud</div>
+            <div class="logo">Mosaic</div>
 
-            <!-- Hamburger icon — three spans styled as horizontal bars via CSS -->
+            <!-- Hamburger icon. Three <span>s are styled as horizontal bars by CSS. -->
             <div class="hamburger" id="hamburger" aria-label="Toggle navigation">
                 <span></span>
                 <span></span>
@@ -45,251 +60,170 @@
         </div>
 
         <ul class="nav-links" id="nav-links">
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#games">Games</a></li>
-            <li><a href="#upcoming">Upcoming</a></li>
-            <li><a href="#engineering">Engineering</a></li>
-            <li><a href="" target="_blank">Resume</a></li><!-- TODO: add resume PDF URL -->
-            <li><a href="" target="_blank">GitHub</a></li><!-- TODO: add GitHub profile URL -->
+            <li><a href="#albums">Albums</a></li>
+            <li><a href="#about">About</a></li>
         </ul>
     </nav>
 
 
-    <!-- =========================================================
-         HERO SECTION
-         Full-width intro with name, tagline, bio, social links,
-         and a profile image. Layout is column on mobile,
-         side-by-side row on desktop.
-    ========================================================= -->
+    <!-- ====================================================================
+         HERO
+         First-impression banner. Shows project name, tagline, and team.
+         No imagery here — the gallery itself is the visual content.
+    ==================================================================== -->
     <section class="hero">
         <div class="hero-content">
-
             <div class="hero-text">
-                <h1>Chud</h1>
-                <p class="tagline">Computer Science / Engineering Student</p>
-                <p>
-                    Aspiring Rotter, Gooner, and all around bum.
-                    Experience: Using Unity &amp; Godot, creating GPT bots and transformers with Python,
-                    and Website Design (HTML, CSS, &amp; JSON).
+                <h1>Mosaic</h1>
+                <p class="tagline">A photo album portfolio</p>
+                <p class="hero-team">
+                    Solomon Smith &middot; Issac Munoz &middot; Dominic Arrezola &middot; Charles Phan
                 </p>
-
-                <!-- Social media icon links — open in new tab -->
-                <div class="hero-buttons">
-                    <a href="" target="_blank" class="social-btn" aria-label="Instagram"><!-- TODO: Instagram URL -->
-                        <img src="Assets/instagram.png" alt="Instagram" />
-                    </a>
-                    <a href="" target="_blank" class="social-btn" aria-label="GitHub"><!-- TODO: GitHub URL -->
-                        <img src="Assets/github.png" alt="GitHub" />
-                    </a>
-                    <a href="" target="_blank" class="social-btn" aria-label="LinkedIn"><!-- TODO: LinkedIn URL -->
-                        <img src="Assets/linkedin.png" alt="LinkedIn" />
-                    </a>
-                </div>
-            </div>
-
-            <!-- Profile / hero image -->
-            <div class="hero-image">
-                <img src="Assets/suprise.gif" alt="Profile image" /><!-- TODO: replace with real profile photo -->
-            </div>
-
-        </div>
-    </section>
-
-
-    <!-- =========================================================
-         PROJECTS SECTION
-         Software and AI projects. Each card flips on hover
-         (desktop) or tap (mobile) to reveal a description.
-    ========================================================= -->
-    <section id="projects" class="expandable">
-        <div class="section-header">
-            <h2>Projects</h2>
-            <span class="toggle" aria-label="Toggle section">+</span>
-        </div>
-        <div class="section-content">
-            <div class="card-container">
-
-                <!-- Card: Face Tracking System -->
-                <div class="card">
-                    <div class="card-inner">
-                        <div class="card-front">Face Tracking System</div>
-                        <div class="card-back">
-                            <!-- TODO: replace comment with <img> when screenshot is available -->
-                            <!-- <video src="assets/videos/face_tracking.mp4" autoplay muted loop></video> -->
-                            <p>Real-time AR overlay built with Python &amp; OpenCV.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card: DocMind — RAG document Q&A (Solomon Smith) -->
-                <div class="card">
-                    <div class="card-inner">
-                        <div class="card-front">DocMind</div>
-                        <div class="card-back">
-                            <p>RAG-based document Q&amp;A — upload any doc and get cited answers powered by a local LLM pipeline.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card: AI Assistant Prototype -->
-                <div class="card">
-                    <div class="card-inner">
-                        <div class="card-front">AI Assistant Prototype</div>
-                        <div class="card-back">
-                            <p>Local AI-based desktop assistant.</p>
-                        </div>
-                    </div>
-                </div>
-
+                <p class="hero-course">CSE 4500 — Platform Computing — CSUSB</p>
             </div>
         </div>
     </section>
 
 
-    <!-- =========================================================
-         GAMES SECTION
-         Game development projects built in Unity and Godot.
-    ========================================================= -->
-    <section id="games" class="expandable">
-        <div class="section-header">
-            <h2>Games</h2>
-            <span class="toggle" aria-label="Toggle section">+</span>
+    <!-- ====================================================================
+         ALBUMS VIEW
+         Default landing view. Lists every album returned by GET /api/albums
+         as a card. The "New Album" form is collapsed by default and toggles
+         open when its trigger button is pressed (handled in script.js).
+    ==================================================================== -->
+    <section id="albums" class="view view-active">
+        <div class="view-header">
+            <h2>Albums</h2>
+            <button id="new-album-btn" class="btn btn-primary" type="button">+ New Album</button>
         </div>
-        <div class="section-content">
-            <div class="card-container">
 
-                <!-- Card: VR Halloween Maze -->
-                <div class="card">
-                    <div class="card-inner">
-                        <div class="card-front">VR Halloween Maze</div>
-                        <div class="card-back">
-                            <p>Multiplayer horror maze built in Unity.</p>
-                        </div>
-                    </div>
-                </div>
+        <!--
+          Inline create form. Hidden by default via the .hidden class.
+          Submitting POSTs to /api/albums and refreshes the album grid.
+        -->
+        <form id="new-album-form" class="inline-form hidden" autocomplete="off">
+            <input
+                type="text"
+                id="new-album-name"
+                name="name"
+                placeholder="Album name (e.g. Vacation 2026)"
+                maxlength="60"
+                required
+            />
+            <button type="submit" class="btn btn-primary">Create</button>
+            <button type="button" id="new-album-cancel" class="btn btn-ghost">Cancel</button>
+        </form>
 
-                <!-- Placeholder cards — teammates to fill in -->
-                <div class="card">
-                    <div class="card-inner">
-                        <div class="card-front"></div><!-- TODO: add project name -->
-                        <div class="card-back">
-                            <p></p><!-- TODO: add project description -->
-                        </div>
-                    </div>
-                </div>
+        <!-- Populated by renderAlbums() in script.js. -->
+        <div id="album-grid" class="album-grid" aria-live="polite"></div>
 
-                <div class="card">
-                    <div class="card-inner">
-                        <div class="card-front"></div><!-- TODO: add project name -->
-                        <div class="card-back">
-                            <p></p><!-- TODO: add project description -->
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+        <!-- Shown when state.albums is empty. Toggled by renderAlbums(). -->
+        <p id="albums-empty" class="empty-state hidden">
+            No albums yet. Click <strong>+ New Album</strong> to create your first one.
+        </p>
     </section>
 
 
-    <!-- =========================================================
-         UPCOMING PROJECTS SECTION
-         Projects currently in development or planned.
-    ========================================================= -->
-    <section id="upcoming" class="expandable">
-        <div class="section-header">
-            <h2>Upcoming Projects</h2>
-            <span class="toggle" aria-label="Toggle section">+</span>
+    <!-- ====================================================================
+         GALLERY VIEW
+         Hidden until an album card is clicked. Shows that album's name,
+         a back button, an inline upload form, and the thumbnail grid.
+    ==================================================================== -->
+    <section id="gallery" class="view hidden">
+        <div class="view-header">
+            <button id="gallery-back" class="btn btn-ghost" type="button">&larr; Back</button>
+            <h2 id="gallery-title">Album</h2>
+            <button id="gallery-delete" class="btn btn-danger" type="button">Delete album</button>
         </div>
-        <div class="section-content">
-            <div class="card-container">
 
-                <!-- Card: Music Player/Soundboard -->
-                <div class="card">
-                    <div class="card-inner">
-                        <div class="card-front">Music Player/Soundboard</div>
-                        <div class="card-back">
-                            <p>Turning a Raspberry Pi into a simple music player.</p>
-                        </div>
-                    </div>
-                </div>
+        <!--
+          Multipart upload form. The file input accepts only image MIME
+          types; multer enforces the same constraint server-side.
+        -->
+        <form id="upload-form" class="inline-form" enctype="multipart/form-data" autocomplete="off">
+            <input
+                type="file"
+                id="upload-input"
+                name="image"
+                accept="image/jpeg,image/png,image/gif,image/webp"
+                required
+            />
+            <button type="submit" class="btn btn-primary">Upload</button>
+        </form>
 
-                <!-- Placeholder cards — teammates to fill in -->
-                <div class="card">
-                    <div class="card-inner">
-                        <div class="card-front"></div><!-- TODO: add project name -->
-                        <div class="card-back">
-                            <p></p><!-- TODO: add project description -->
-                        </div>
-                    </div>
-                </div>
+        <!-- Populated by renderGallery() in script.js. -->
+        <div id="thumbnail-grid" class="thumbnail-grid" aria-live="polite"></div>
 
-                <div class="card">
-                    <div class="card-inner">
-                        <div class="card-front"></div><!-- TODO: add project name -->
-                        <div class="card-back">
-                            <p></p><!-- TODO: add project description -->
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+        <p id="gallery-empty" class="empty-state hidden">
+            This album is empty. Upload your first image above.
+        </p>
     </section>
 
 
-    <!-- =========================================================
-         ENGINEERING SECTION
-         Security engineering and systems projects (Solomon Smith).
-    ========================================================= -->
-    <section id="engineering" class="expandable">
-        <div class="section-header">
-            <h2>Engineering</h2>
-            <span class="toggle" aria-label="Toggle section">+</span>
-        </div>
-        <div class="section-content">
-            <div class="card-container">
+    <!-- ====================================================================
+         ABOUT
+         Static project description, tech stack, and team credits.
+         Always visible in source order; can be reached via the nav anchor.
+    ==================================================================== -->
+    <section id="about" class="about">
+        <h2>About this project</h2>
+        <p>
+            <strong>Mosaic</strong> is a small full-stack web application built
+            for CSE 4500. Users create albums, upload images, view them in a
+            full-screen lightbox, and delete what they no longer want. The
+            backend persists every album and image to a SQLite database, and
+            stores uploaded files on a disk volume that survives redeploys.
+        </p>
 
-                <!-- Card: SOC Triage AI (Solomon Smith) -->
-                <div class="card">
-                    <div class="card-inner">
-                        <div class="card-front">SOC Triage AI</div>
-                        <div class="card-back">
-                            <p>AI-powered security alert triage system. Classifies threats, assigns severity, and generates analyst recommendations.</p>
-                        </div>
-                    </div>
-                </div>
+        <h3>Tech stack</h3>
+        <ul class="tech-list">
+            <li><span class="tag">Node.js 22</span></li>
+            <li><span class="tag">Express 4</span></li>
+            <li><span class="tag">SQLite (better-sqlite3)</span></li>
+            <li><span class="tag">Multer (file uploads)</span></li>
+            <li><span class="tag">Vanilla JS / CSS</span></li>
+            <li><span class="tag">Render (deploy)</span></li>
+        </ul>
 
-                <!-- Card: DossierForge (Solomon Smith) -->
-                <div class="card">
-                    <div class="card-inner">
-                        <div class="card-front">DossierForge</div>
-                        <div class="card-back">
-                            <p>Flask-based OSINT dossier builder with WHOIS lookups, nmap scanning, and social media recon modules.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card: PhishGuard (Solomon Smith) -->
-                <div class="card">
-                    <div class="card-inner">
-                        <div class="card-front">PhishGuard</div>
-                        <div class="card-back">
-                            <p>Phishing URL detection tool using machine learning to identify malicious links in real time.</p>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+        <h3>Team</h3>
+        <ul class="team-list">
+            <li>Solomon Smith</li>
+            <li>Issac Munoz</li>
+            <li>Dominic Arrezola</li>
+            <li>Charles Phan</li>
+        </ul>
     </section>
 
 
-    <!-- =========================================================
+    <!-- ====================================================================
+         LIGHTBOX MODAL
+         Hidden by default. showModal('lightbox') in script.js reveals it.
+         Clicking the dim backdrop (handled by modalClicked) closes it.
+    ==================================================================== -->
+    <div id="lightbox" class="modal" onclick="modalClicked(event)">
+        <div class="modal-content lightbox-content">
+            <button class="modal-close" onclick="hideModal('lightbox')" aria-label="Close">&times;</button>
+            <!-- src is set dynamically by openLightbox() in script.js -->
+            <img id="lightbox-image" src="" alt="" />
+            <p id="lightbox-caption" class="lightbox-caption"></p>
+        </div>
+    </div>
+
+
+    <!-- ====================================================================
+         TOAST
+         Floating message used for success and error notifications. The
+         showToast() helper in script.js sets text + variant class and
+         schedules an auto-dismiss timer.
+    ==================================================================== -->
+    <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+
+    <!-- ====================================================================
          FOOTER
-    ========================================================= -->
+    ==================================================================== -->
     <footer class="site-footer">
-        <p>&copy; 2026 <span>CSE 4500</span> &mdash; Platform Computing &mdash; CSUSB</p>
+        <p>&copy; 2026 Mosaic &middot; CSE 4500 Platform Computing &middot; CSUSB</p>
     </footer>
 
 
