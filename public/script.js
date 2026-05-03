@@ -74,6 +74,7 @@ const els = {
     // Lightbox
     lightboxImage:   document.getElementById('lightbox-image'),
     lightboxCaption: document.getElementById('lightbox-caption'),
+    lightboxClose:   document.querySelector('#lightbox .modal-close'),
 
     // Toast
     toast:           document.getElementById('toast'),
@@ -298,6 +299,9 @@ function renderGallery(album) {
  */
 function buildThumbnail(image) {
     const tile = makeEl('div', { className: 'thumbnail' });
+    tile.setAttribute('role', 'button');
+    tile.setAttribute('tabindex', '0');
+    tile.setAttribute('aria-label', `View ${image.original_name}`);
 
     const img = document.createElement('img');
     img.src = `/uploads/${image.filename}`;
@@ -315,6 +319,12 @@ function buildThumbnail(image) {
     tile.appendChild(del);
 
     tile.addEventListener('click', () => openLightbox(image));
+    tile.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            openLightbox(image);
+        }
+    });
     return tile;
 }
 
@@ -348,10 +358,12 @@ function closeGallery() {
  * --------------------------------------------------------------------------*/
 
 function openLightbox(image) {
+    _lightboxTrigger = document.activeElement;
     els.lightboxImage.src = `/uploads/${image.filename}`;
     els.lightboxImage.alt = image.original_name;
     els.lightboxCaption.textContent = image.original_name;
     showModal('lightbox');
+    els.lightboxClose.focus();
 }
 
 
@@ -417,6 +429,9 @@ async function handleDeleteAlbum(album) {
 
 let toastTimer = null;
 
+/** Element that had focus when the lightbox was opened; restored on close. */
+let _lightboxTrigger = null;
+
 /**
  * @param {string} message  — text to display
  * @param {'success'|'error'|'info'} [variant='info']
@@ -451,6 +466,10 @@ function showModal(modalId) {
 function hideModal(modalId) {
     const el = document.getElementById(modalId);
     if (el) el.style.display = 'none';
+    if (modalId === 'lightbox' && _lightboxTrigger) {
+        _lightboxTrigger.focus();
+        _lightboxTrigger = null;
+    }
 }
 
 /**
@@ -517,6 +536,16 @@ els.uploadForm.addEventListener('submit', async e => {
     if (!file) return;
     await handleUploadImage(file);
     els.uploadInput.value = '';
+});
+
+// Close the lightbox on Escape.
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+        const lightbox = document.getElementById('lightbox');
+        if (lightbox && lightbox.style.display === 'block') {
+            hideModal('lightbox');
+        }
+    }
 });
 
 
