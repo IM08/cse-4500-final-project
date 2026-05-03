@@ -76,7 +76,7 @@ function fetchSampleImage(seed, dest) {
         const get = (target, hops = 0) => {
             if (hops > 5) return reject(new Error(`too many redirects for ${seed}`));
             https.get(target, res => {
-                // Follow 30x redirects (picsum bounces through pisum.photos -> CDN).
+                // Follow 30x redirects (picsum bounces through picsum.photos -> CDN).
                 if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
                     res.resume();
                     return get(res.headers.location, hops + 1);
