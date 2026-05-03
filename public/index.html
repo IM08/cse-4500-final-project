@@ -200,8 +200,9 @@
          Hidden by default. showModal('lightbox') in script.js reveals it.
          Clicking the dim backdrop (handled by modalClicked) closes it.
     ==================================================================== -->
-    <div id="lightbox" class="modal" onclick="modalClicked(event)">
+    <div id="lightbox" class="modal" onclick="modalClicked(event)" role="dialog" aria-modal="true" aria-labelledby="lightbox-title" aria-describedby="lightbox-caption">
         <div class="modal-content lightbox-content">
+            <h2 id="lightbox-title">Image preview</h2>
             <button class="modal-close" onclick="hideModal('lightbox')" aria-label="Close">&times;</button>
             <!-- src is set dynamically by openLightbox() in script.js -->
             <img id="lightbox-image" src="" alt="" />
