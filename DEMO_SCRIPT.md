@@ -18,7 +18,7 @@ Run-of-show for the in-class final-project presentation. Total target time:
 
 ### Slide 1 — Title (15s)
 
-> "Hi, we're team Mosaic. I'm Solomon, with Issac, Dominic, and Charles. Our
+> "Hi, we're team Mosaic. I'm Solomon, with Isaac, Dominic, and Charles. Our
 > final project is **Mosaic — a photo album portfolio**. It's deployed live at
 > `<Render URL>`."
 
@@ -147,11 +147,11 @@ sideways mid-presentation, run it and the demo looks identical to the slides.
 | Slide | Speaker |
 |-------|---------|
 | 1 Title | Solomon |
-| 2 Problem | Issac |
+| 2 Problem | Isaac |
 | 3 Architecture | Dominic |
 | 4 Live demo | Solomon (driver) + everyone narrating |
 | 5 Tech stack | Charles |
-| 6 Validation | Issac |
+| 6 Validation | Isaac |
 | 7 Lessons | Dominic |
 | 8 Team | Charles |
 | 9 Q&A | All |

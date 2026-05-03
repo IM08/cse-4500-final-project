@@ -2,7 +2,7 @@
 
 CSE 4500 (Platform Computing) — Final Project — CSUSB
 
-**Team:** Solomon Smith, Issac Munoz, Dominic Arrezola, Charles Phan
+**Team:** Solomon Smith, Isaac Munoz, Dominic Arrezola, Charles Phan
 
 A small full-stack web app for creating photo albums, uploading images,
 viewing them in a full-screen lightbox, and managing them. Backend is

@@ -1,6 +1,6 @@
 # Mosaic — Photo Album Portfolio
 **CSE 4500 (Platform Computing) — Final Project Report**
-**Team:** Solomon Smith, Issac Munoz, Dominic Arrezola, Charles Phan
+**Team:** Solomon Smith, Isaac Munoz, Dominic Arrezola, Charles Phan
 **Date:** May 2026
 
 ## 1. Problem
@@ -79,7 +79,7 @@ contributed across the stack — frontend, backend, database, deployment,
 report, and presentation:
 
 - Solomon Smith
-- Issac Munoz
+- Isaac Munoz
 - Dominic Arrezola
 - Charles Phan
 

@@ -58,7 +58,7 @@ style: |
 
 **CSE 4500 — Platform Computing**
 
-Solomon Smith · Issac Munoz · Dominic Arrezola · Charles Phan
+Solomon Smith · Isaac Munoz · Dominic Arrezola · Charles Phan
 
 <span class="small">Live demo: _(filled in after Render deploy)_</span>
 
@@ -161,7 +161,7 @@ Mosaic is a joint effort by all four team members.
 Every member contributed across the stack.
 
 - **Solomon Smith**
-- **Issac Munoz**
+- **Isaac Munoz**
 - **Dominic Arrezola**
 - **Charles Phan**
 
