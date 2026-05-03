@@ -2,3 +2,9 @@ node_modules/
 uploads/
 database.db
 .env
+
+# Build / tooling artifacts
+.playwright-mcp/
+.claude/
+report.html
+
