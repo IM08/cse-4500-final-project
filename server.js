@@ -25,6 +25,12 @@ const UPLOADS_DIR = path.join(__dirname, 'uploads');
 // Ensure uploads/ exists at startup (Render persistent disk may mount empty)
 fs.mkdirSync(UPLOADS_DIR, { recursive: true });
 
+// Returns true only if v is a finite, positive integer (safe DB row id).
+function isPositiveInt(v) {
+  const n = Number(v);
+  return Number.isFinite(n) && Number.isInteger(n) && n > 0;
+}
+
 // Best-effort delete of a file in uploads/. Missing file is not an error.
 function unlinkUpload(filename) {
   if (!filename) return;
@@ -153,9 +159,9 @@ app.post('/api/albums', (req, res) => {
 app.post('/api/upload', upload.single('image'), (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'No image file provided' });
 
-  if (!req.body.album_id) {
+  if (!isPositiveInt(req.body.album_id)) {
     unlinkUpload(req.file.filename);
-    return res.status(400).json({ error: 'album_id is required' });
+    return res.status(400).json({ error: 'album_id must be a positive integer' });
   }
 
   const albumId = Number(req.body.album_id);
@@ -184,6 +190,7 @@ app.post('/api/upload', upload.single('image'), (req, res) => {
  * Removes the image record from the DB and the file from disk.
  */
 app.delete('/api/images/:id', (req, res) => {
+  if (!isPositiveInt(req.params.id)) return res.status(400).json({ error: 'id must be a positive integer' });
   const id = Number(req.params.id);
   const row = db.prepare('SELECT filename FROM images WHERE id = ?').get(id);
   if (!row) return res.status(404).json({ error: 'Image not found' });
@@ -198,6 +205,7 @@ app.delete('/api/images/:id', (req, res) => {
  * Removes the album, all its images (FK cascade), and their files from disk.
  */
 app.delete('/api/albums/:id', (req, res) => {
+  if (!isPositiveInt(req.params.id)) return res.status(400).json({ error: 'id must be a positive integer' });
   const id = Number(req.params.id);
   const album = db.prepare('SELECT id FROM albums WHERE id = ?').get(id);
   if (!album) return res.status(404).json({ error: 'Album not found' });
