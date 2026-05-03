@@ -68,11 +68,19 @@ Run-of-show for the in-class final-project presentation. Total target time:
    > "DELETE `/api/albums/:id`. Cascade deletes the image rows, and the server
    > collects the filenames first so it can clean up disk."
 
-**Backup if something breaks:**
-- If the server crashes: Ctrl-C, `npm start`, browser hard-refresh.
-- If the DB is in a weird state: Ctrl-C, `rm database.db`, `npm start`.
-- If the uploads folder is full of junk: Ctrl-C, `find uploads -type f -delete`,
-  `npm start`.
+**Backup if something breaks (in escalating order — try the smallest fix first):**
+
+| Symptom | Recovery |
+|---|---|
+| Browser looks wrong / out of sync | Hard-refresh (`⌘⇧R` / `Ctrl+Shift+R`). |
+| Server crashed | Ctrl-C, `npm start`. |
+| DB in a weird state | Ctrl-C, `rm database.db`, `npm start`. |
+| **Demo flat-out failing** | Ctrl-C, `npm run seed:reset`, `npm start`. **Fully populated state in ~5 seconds** with the same three albums shown in the slide deck (Vacation 2026, Senior Project Demo, Campus Photos). |
+
+The seed script (`seed.js` / `npm run seed:reset`) is the safety net for the live
+demo. It wipes the DB + uploads, downloads 5 deterministic sample images, and
+recreates the exact state that's shown in the screenshots — so if anything goes
+sideways mid-presentation, run it and the demo looks identical to the slides.
 
 ### Slide 5 — Tech stack (30s)
 
