@@ -3,7 +3,7 @@
  * Mosaic — Photo Album Portfolio
  * CSE 4500 (Platform Computing) — Final Project
  * ----------------------------------------------------------------------------
- * Team:  Solomon Smith, Issac Munoz, Dominic Arrezola, Charles Phan
+ * Team:  Solomon Smith, Isaac Munoz, Dominic Arrezola, Charles Phan
  * File:  public/script.js — single-file client logic
  * ----------------------------------------------------------------------------
  * Responsibilities (top-down):
