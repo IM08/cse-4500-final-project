@@ -136,13 +136,21 @@ a:hover {
     gap: 6px;
     padding: 10px 18px;
     border-radius: 10px;
-    border: none;
+    border: 1px solid transparent;
     cursor: pointer;
     font-family: inherit;
     font-size: 0.95rem;
     font-weight: 500;
+    /* Slightly tighter tracking + a faint focus ring for keyboard users. */
+    letter-spacing: 0.005em;
     transition: transform var(--transition-fast), background var(--transition-fast),
-                box-shadow var(--transition-fast), color var(--transition-fast);
+                box-shadow var(--transition-fast), color var(--transition-fast),
+                border-color var(--transition-fast);
+}
+
+.btn:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.35);
 }
 
 .btn:active {
@@ -152,33 +160,39 @@ a:hover {
 .btn-primary {
     background: var(--color-accent-dark);
     color: var(--color-text-bright);
+    border-color: var(--color-accent-dark);
 }
 
 .btn-primary:hover {
     background: var(--color-accent);
+    border-color: var(--color-accent);
+    /* Lift + glow together so the affordance reads even at a glance. */
+    transform: translateY(-1px);
     box-shadow: var(--shadow-glow);
 }
 
 .btn-ghost {
     background: transparent;
     color: var(--color-text-dim);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.08);
 }
 
 .btn-ghost:hover {
     color: var(--color-text-bright);
     border-color: var(--color-accent);
+    background: rgba(167, 139, 250, 0.06);
 }
 
 .btn-danger {
     background: transparent;
     color: var(--color-danger);
-    border: 1px solid rgba(248, 113, 113, 0.4);
+    border-color: rgba(248, 113, 113, 0.4);
 }
 
 .btn-danger:hover {
-    background: rgba(248, 113, 113, 0.1);
+    background: rgba(248, 113, 113, 0.12);
     color: var(--color-text-bright);
+    border-color: var(--color-danger);
 }
 
 
@@ -259,16 +273,39 @@ a:hover {
    5. HERO
    First-impression banner. Vertically padded, no imagery — the gallery
    below is the visual content.
+
+   Each child fades and rises on first paint, staggered by ~120ms so the
+   block reads top-to-bottom rather than landing all at once.
 ============================================================================= */
 .hero {
     text-align: center;
-    padding: 64px 24px 48px;
+    padding: clamp(72px, 11vw, 120px) 24px clamp(56px, 8vw, 96px);
     background: radial-gradient(circle at top, rgba(139, 92, 246, 0.18), transparent 60%);
 }
 
+/* Each direct child of .hero-text rises in sequence on first paint. */
+.hero-text > * {
+    opacity: 0;
+    animation: hero-rise 700ms cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+}
+
+.hero-text > *:nth-child(1) { animation-delay:  60ms; }
+.hero-text > *:nth-child(2) { animation-delay: 180ms; }
+.hero-text > *:nth-child(3) { animation-delay: 300ms; }
+.hero-text > *:nth-child(4) { animation-delay: 420ms; }
+
+@keyframes hero-rise {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
 .hero h1 {
-    font-size: 3rem;
-    margin-bottom: 8px;
+    /* Larger, with tighter tracking. clamp() preserves the mobile sizing
+       without sacrificing impact on a desktop projector. */
+    font-size: clamp(2.6rem, 6.4vw, 4.4rem);
+    line-height: 1;
+    letter-spacing: -0.025em;
+    margin-bottom: 14px;
     background: linear-gradient(120deg, var(--color-accent), #f0abfc);
     -webkit-background-clip: text;
     background-clip: text;
@@ -276,21 +313,23 @@ a:hover {
 }
 
 .hero .tagline {
-    font-size: 1.15rem;
+    font-size: clamp(1.1rem, 1.4vw, 1.25rem);
     color: var(--color-text-dim);
-    margin-bottom: 12px;
+    margin-bottom: 18px;
+    letter-spacing: 0.005em;
 }
 
 .hero-team {
-    color: var(--color-text);
-    font-size: 0.95rem;
-    margin-bottom: 4px;
+    color: var(--color-text-bright);
+    font-size: 1rem;
+    margin-bottom: 6px;
+    letter-spacing: 0.005em;
 }
 
 .hero-course {
     color: var(--color-text-dim);
-    font-size: 0.85rem;
-    letter-spacing: 0.04em;
+    font-size: 0.8rem;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
 }
 
@@ -414,10 +453,12 @@ a:hover {
     cursor: pointer;
     box-shadow: var(--shadow-card);
     transition: transform var(--transition-med), box-shadow var(--transition-med);
+    /* Fade-up on first paint; per-card stagger is set inline by script.js. */
+    animation: card-rise 600ms cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
 }
 
 .album-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-6px);
     box-shadow: var(--shadow-card), var(--shadow-glow);
 }
 
@@ -426,6 +467,18 @@ a:hover {
     height: 100%;
     object-fit: cover;
     display: block;
+    /* Subtle ken-burns nudge on hover so the cover feels "alive". */
+    transition: transform var(--transition-med), filter var(--transition-med);
+}
+
+.album-card:hover img {
+    transform: scale(1.04);
+    filter: brightness(1.05) saturate(1.05);
+}
+
+@keyframes card-rise {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
 /*
@@ -449,22 +502,28 @@ a:hover {
     left: 0;
     right: 0;
     bottom: 0;
-    padding: 14px 16px;
+    padding: 16px 18px 18px;
+    /* Slightly taller gradient + a hint of accent at the very bottom so
+       the type sits on a clear ground without looking heavy. */
     background: linear-gradient(to top,
-                                rgba(0, 0, 0, 0.85) 20%,
-                                transparent);
+                                rgba(0, 0, 0, 0.92) 0%,
+                                rgba(0, 0, 0, 0.55) 50%,
+                                transparent 100%);
     color: var(--color-text-bright);
 }
 
 .album-card .album-name {
-    font-size: 1.05rem;
+    font-size: 1.1rem;
     font-weight: 600;
-    margin-bottom: 2px;
+    line-height: 1.25;
+    margin-bottom: 3px;
+    letter-spacing: -0.005em;
 }
 
 .album-card .album-count {
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     color: var(--color-text-dim);
+    letter-spacing: 0.02em;
 }
 
 /*
@@ -661,24 +720,30 @@ a:hover {
 .about {
     max-width: 800px;
     margin: 0 auto;
-    padding: 48px 24px;
+    padding: clamp(48px, 6vw, 72px) 24px clamp(56px, 7vw, 80px);
 }
 
 .about h2 {
-    font-size: 1.6rem;
-    margin-bottom: 16px;
+    font-size: clamp(1.6rem, 2.4vw, 2rem);
+    margin-bottom: 18px;
+    letter-spacing: -0.012em;
 }
 
 .about h3 {
-    font-size: 1.15rem;
-    margin-top: 28px;
-    margin-bottom: 12px;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    margin-top: 32px;
+    margin-bottom: 14px;
     color: var(--color-accent);
+    font-weight: 600;
 }
 
 .about p {
     color: var(--color-text);
     margin-bottom: 12px;
+    line-height: 1.7;
+    max-width: 60ch;
 }
 
 .tech-list,
@@ -691,10 +756,16 @@ a:hover {
 
 .team-list li {
     background: var(--color-bg-elevated);
-    padding: 8px 16px;
+    padding: 8px 18px;
     border-radius: var(--radius-pill);
     color: var(--color-text);
     border: 1px solid rgba(167, 139, 250, 0.2);
+    transition: transform var(--transition-fast), border-color var(--transition-fast);
+}
+
+.team-list li:hover {
+    transform: translateY(-1px);
+    border-color: var(--color-accent);
 }
 
 
@@ -717,10 +788,18 @@ a:hover {
    as the viewport widens.
 ============================================================================= */
 
-/* >= 600px: tighter thumbnail grid hand-tune. */
-@media (min-width: 600px) {
-    .hero h1 {
-        font-size: 3.6rem;
+/* >= 600px: hero typography hand-tune handled via clamp() in section 5;
+   no additional override needed. Reserved for future tuning. */
+
+/* Honour the OS-level reduced-motion preference. Animations collapse
+   to near-instant so the layout still settles without motion. */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 1ms !important;
+        animation-delay: 0ms !important;
+        transition-duration: 1ms !important;
     }
 }
 

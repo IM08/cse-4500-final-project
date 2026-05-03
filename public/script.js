@@ -209,9 +209,13 @@ function renderAlbums() {
     }
     els.albumsEmpty.classList.add('hidden');
 
-    for (const album of state.albums) {
-        els.albumGrid.appendChild(buildAlbumCard(album));
-    }
+    // Stagger the cards' fade-in: each one starts ~70ms after the previous,
+    // capped at 8 so a large grid doesn't take forever to settle.
+    state.albums.forEach((album, idx) => {
+        const card = buildAlbumCard(album);
+        card.style.animationDelay = `${Math.min(idx, 8) * 70}ms`;
+        els.albumGrid.appendChild(card);
+    });
 }
 
 /**
