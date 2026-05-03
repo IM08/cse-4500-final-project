@@ -2,9 +2,14 @@ services:
   - type: web
     name: mosaic
     runtime: node
+    plan: free
     buildCommand: npm install
     startCommand: node server.js
+    # Persistent volume for user-uploaded images. The mount path matches the
+    # absolute path that `server.js` writes to (path.join(__dirname, 'uploads')
+    # resolves to /opt/render/project/src/uploads on Render's runtime), so
+    # uploads survive redeploys instead of vanishing to ephemeral storage.
     disk:
       name: uploads
-      mountPath: /uploads
+      mountPath: /opt/render/project/src/uploads
       sizeGB: 1
