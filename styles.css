@@ -390,6 +390,7 @@ body {
     justify-content: space-between;
     gap: 40px;
     align-items: center;
+    padding-top: 80px;
   }
 
   .hero-text {
