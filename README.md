@@ -9,6 +9,20 @@ An online portfolio website.
 - Dominic Arrezola (007956059)
 - Charles Phan (008144130)
 
+## Tech stack
+
+- HTML5
+- CSS3 (mobile-first, responsive media queries)
+- Vanilla JavaScript
+
+## Features
+
+- Responsive navbar with hamburger menu on mobile
+- Hero section with social links (Instagram, GitHub, LinkedIn)
+- Expandable sections (Projects, Games, Upcoming Projects)
+- Flip cards with project details on the back
+- Hardcoded background imagery on each project card
+
 ## Run locally
 
 ```bash
